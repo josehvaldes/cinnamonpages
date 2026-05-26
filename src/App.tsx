@@ -1,15 +1,5 @@
 
-import React from 'react';
 import { ProductCard } from './components/ProductCard';
-import { NavBar } from './components/Navbar';
-import { useLocalStorage } from "./hooks/useLocalStorage";
-type ActiveView = 'home' | 'products' | 'about';
-
-// --- Reusable Components ---
-type NavLinkProps = { href: string; children: React.ReactNode };
-const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
-  <a className="inline-block no-underline hover:text-black hover:underline py-2 px-4" href={href}>{children}</a>
-);
 
 
 const products = [
@@ -56,7 +46,6 @@ const products = [
 ];
 
 export default function App() {
-  const [activeView, setActiveView] = useLocalStorage<ActiveView>('shopassist-active-view', 'home');
 
   return (
     <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
