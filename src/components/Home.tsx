@@ -103,7 +103,8 @@ export function Home({}: HomeProps) {
             <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
               <a className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl " href="#">Store</a>
               <Text size="md">
-              This is the API URL: {import.meta.env.VITE_AWS_API_BASE_URL}
+              
+              - This is the API URL: {import.meta.env.VITE_AWS_API_BASE_URL}
               </Text>
               <div className="flex items-center" id="store-nav-content">
                 <a className="pl-3 inline-block no-underline hover:text-black" href="#">
