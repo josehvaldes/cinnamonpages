@@ -5,7 +5,10 @@ export const api = {
   
   // Get Health Check
   healthCheck: async (): Promise<string> => {
-    return apiRequest('/');
+    return apiRequest('/health/live', 
+      { method: 'GET', 
+        responseType: 'text', 
+        excludeApiVersion: true });
   },
 
 };

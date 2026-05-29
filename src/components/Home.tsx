@@ -1,7 +1,10 @@
 import { ProductCard } from './ProductCard';
 import { TestConnectionApi } from './TestConnectionApi';
+import { useHomepage } from '../hooks/useHomepage';
+import { Text } from '@mantine/core';
+import type { Product } from '../types/Product';
 
-const products = [
+const fallbackProducts: Product[] = [
   {
     img: 'https://images.unsplash.com/photo-1555982105-d25af4182e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80',
     name: 'Product Name',
@@ -51,6 +54,10 @@ interface HomeProps {
 
 export function Home({}: HomeProps) {
 
+  const { isLoading, error, data } = useHomepage();
+  const productsToRender = fallbackProducts;
+  const productRetrieved = data;
+
   return (
     <div className='pb-20' >
     <div className="carousel relative container mx-auto" style={{ maxWidth: '1600px' }}>
@@ -99,7 +106,15 @@ export function Home({}: HomeProps) {
       
       <section className="bg-white py-8">
         <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
+          
+          {isLoading && <p>Loading...</p>}
+          {error && <p>Error: {error}</p>}
           <TestConnectionApi />
+          <Text mt="md" size="sm" color="dimmed">
+          {`Loaded products: ${productRetrieved.newArrivals.length} new arrivals, ${productRetrieved.trendingProducts.length} trending products, ${productRetrieved.onSales.length} on sale.`}
+          </Text>
+          
+          
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
             <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
               <a className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl " href="#">Store</a>
@@ -119,7 +134,7 @@ export function Home({}: HomeProps) {
             </div>
           </nav>
           {/* Product Cards */}
-          {products.map((product, idx) => (
+          {productsToRender.map((product, idx) => (
             <ProductCard key={idx} {...product} />
           ))}
         </div>
