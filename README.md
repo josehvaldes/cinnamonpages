@@ -1,73 +1,101 @@
-# React + TypeScript + Vite
+# Cinnamon Pages
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio project showcasing a modern React frontend deployed on Cloudflare and integrated with AWS services:
 
-Currently, two official plugins are available:
+- AWS Lambda for product and health endpoints
+- Amazon S3 for product image storage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The goal of this project is to demonstrate practical full-stack integration across cloud providers, with a clean client architecture and production-style deployment workflow.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19 + TypeScript
+- Vite
+- Cloudflare Vite plugin + Wrangler deployment
+- TanStack Query (with persisted cache)
+- Mantine UI
+- Tailwind CSS
+- AWS Lambda (API backend)
+- Amazon S3 (image hosting)
 
-## Expanding the ESLint configuration
+## Architecture Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. User opens the React application deployed on Cloudflare.
+2. Frontend calls AWS API endpoints (Lambda-backed) using environment-driven base URLs.
+3. Product payload contains image keys.
+4. Frontend builds image URLs from the configured S3 bucket URL and renders product cards.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Key runtime integrations:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Product API: GET /v1/Homepage
+- Health API: GET /health/live
+- S3 image URL builder: base bucket URL + image key
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Features Demonstrated
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Cloud deployment-ready React SPA
+- Cross-cloud integration (Cloudflare + AWS)
+- Centralized API request layer with API key headers
+- Health-check button to validate backend connectivity
+- Cached and persisted homepage product data with TanStack Query
+- Responsive storefront-style UI with categorized sections:
+  - New Arrivals
+  - Trending Products
+  - On Sales
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment Variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Create a local .env file (or configure equivalent environment variables for deployment) using these keys:
+
+VITE_AWS_API_BASE_URL=http://localhost:8000/api/
+VITE_AWS_API_VERSION_URL=v1
+VITE_API_KEY=your_api_key
+VITE_S3_BUCKET_URL=your_s3_url
+
+Notes:
+
+- VITE_AWS_API_BASE_URL is the API gateway/base route for Lambda endpoints.
+- VITE_AWS_API_VERSION_URL is appended for versioned routes such as /v1/Homepage.
+- VITE_S3_BUCKET_URL should include the public S3 bucket/base path used for images.
+
+## Getting Started
+
+Prerequisites:
+
+- Node.js 20+
+- npm
+- Wrangler CLI account authentication for Cloudflare deployment
+
+Install dependencies:
+
+npm install
+
+Run in development:
+
+npm run dev
+
+Build production assets:
+
+npm run build
+
+Preview with Wrangler locally:
+
+npm run preview
+
+## Deployment
+
+Deploy to Cloudflare:
+
+npm run deploy
+
+This builds the app and deploys it through Wrangler using the project configuration.
+
+## Project Purpose
+
+This repository is intended as a portfolio artifact to show:
+
+- Frontend engineering with React + TypeScript
+- Cloudflare deployment workflow
+- Integration with AWS Lambda APIs
+- Integration with S3-hosted media assets
+- Real-world API consumption patterns in a UI application
