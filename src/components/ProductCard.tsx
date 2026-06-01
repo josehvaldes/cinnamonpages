@@ -1,4 +1,6 @@
 
+import {getImageUrl} from '../utils/getImageUrl';
+
 interface ProductCardProps {
   img: string;
   name: string;
@@ -9,7 +11,7 @@ export function ProductCard({ img, name, price }: ProductCardProps) {
   return (
   <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
     <a href="#">
-      <img className="hover:grow hover:shadow-lg" src={img} alt={name} />
+      <img className="hover:grow hover:shadow-lg" alt={name} src={getImageUrl(img) ?? 'default-image-url'} />
       <div className="pt-3 flex items-center justify-between">
         <p>{name}</p>
         <svg className="h-6 w-6 fill-current text-gray-500 hover:text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
