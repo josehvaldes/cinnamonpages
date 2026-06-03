@@ -22,6 +22,6 @@ export function useHomepage(): HomepageState {
   return {
     isLoading: isPending,
         error: error ? error.message : null,
-        data: data ?? { trendingProducts: [], newArrivals: [], onSales: [] },
+        data: data ?? { trendings: [], newArrivals: [], onSales: [] },
   };
 }

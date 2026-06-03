@@ -3,7 +3,7 @@ import { apiRequest } from './apiGeneric';
 import type { Product } from '../types/Product';
 
 export interface HomepageProductsResponse {
-    trendingProducts: Product[];
+    trendings: Product[];
     newArrivals: Product[];
     onSales: Product[];
 }

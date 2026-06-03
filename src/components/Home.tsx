@@ -52,7 +52,7 @@ export function Home({}: HomeProps) {
             </div>
           </nav>
           {/* Product Cards */}
-          {productRetrieved.trendingProducts.map((product, idx) => (
+          {productRetrieved.trendings.map((product, idx) => (
             <ProductCard key={idx} {...product} />
           ))}
 
