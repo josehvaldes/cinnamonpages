@@ -37,7 +37,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         client={queryClient}
         persistOptions={{
           persister: queryCachePersister,
-          maxAge: 24 * 60 * 60 * 1000, // Keep persisted cache for up to 24 hours
+          maxAge: 6 * 60 * 60 * 1000, // Keep persisted cache for up to 6 hours
+          buster:"1.0.0" // Change this value to invalidate all persisted cache when your app updates
         }}
       >
         <App />
