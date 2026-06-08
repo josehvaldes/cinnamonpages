@@ -1,20 +1,18 @@
 import { Box, Anchor,Flex} from '@mantine/core';
+import { Link, useLocation } from 'react-router-dom';
 
-type ActiveView = 'home' | 'products' | 'about';
+export function NavBar(){
 
-interface NavBarProps {
-  activeView: ActiveView;
-  onViewChange: (view: ActiveView) => void;
-}
-
-export function NavBar({ activeView, onViewChange }: NavBarProps){
+    const location = useLocation();
+    const isHome = location.pathname === '/';
+    const isAbout = location.pathname === '/about';
 
     return(
     <Box component="nav" className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3">
 
       <Flex mih = {50} gap="md" justify="center" align="center" wrap="wrap">
-        <Anchor href="#" onClick={() => onViewChange('home')} underline={activeView === 'home' ? 'always' : 'never'} >Shop</Anchor> 
-        <Anchor href="#" onClick={() => onViewChange('about')} underline={activeView === 'about' ? 'always' : 'never'} >About</Anchor>
+        <Anchor component={Link} to="/" underline={isHome ? 'always' : 'never'}>Shop</Anchor>
+        <Anchor component={Link} to="/about" underline={isAbout ? 'always' : 'never'}>About</Anchor>
       </Flex>
         
       <div className="order-1 md:order-2">

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { MantineProvider } from '@mantine/core';
 import { theme } from './theme/theme';
@@ -37,11 +38,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         client={queryClient}
         persistOptions={{
           persister: queryCachePersister,
-          maxAge: 6 * 60 * 60 * 1000, // Keep persisted cache for up to 6 hours
-          buster:"1.0.0" // Change this value to invalidate all persisted cache when your app updates
+          maxAge: 2 * 60 * 60 * 1000, // Keep persisted cache for up to 2 hours
+          buster:"1.0.1" // Change this value to invalidate all persisted cache when your app updates
         }}
       >
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </PersistQueryClientProvider>
     </MantineProvider>
   </React.StrictMode>

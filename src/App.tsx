@@ -1,36 +1,28 @@
 import {AppShell} from "@mantine/core";
+import { Route, Routes } from "react-router-dom";
 import { NavBar } from './components/Navbar';
-import { useLocalStorage } from "./hooks/useLocalStorage";
 import {Home} from "./components/Home";
 import {Footer} from "./components/Footer";
-
-type ActiveView = 'home' | 'products' | 'about';
+import { ProductView } from "./components/ProductView";
 
 export default function App() {
-  const [activeView, setActiveView] = useLocalStorage<ActiveView>('store-active-view', 'home');
-  
-  const renderMainContent = () => {
-    switch (activeView) {
-      case 'home':
-        return <Home />;
-    }
-  };
-
   return (
     <AppShell>
       <div className="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
 
         <AppShell.Header>
-          <NavBar activeView={activeView} onViewChange={setActiveView} />
+          <NavBar />
         </AppShell.Header>
         
         <AppShell.Main>
-          {renderMainContent()}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<div><h1>About Page</h1></div>} />
+            <Route path="/product/:productSlug" element={<ProductView />} />
+          </Routes>
+          <Footer />
         </AppShell.Main>
 
-        <AppShell.Footer>
-          <Footer />
-        </AppShell.Footer>
       </div>
     </AppShell>
     

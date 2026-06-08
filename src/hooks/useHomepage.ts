@@ -18,7 +18,6 @@ export function useHomepage(): HomepageState {
     queryFn: () => productsApi.getHomepageProducts(),
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
   });
-  console.log('useHomepage - isPending:', isPending, 'error:', error, 'data:', data);
   return {
     isLoading: isPending,
         error: error ? error.message : null,

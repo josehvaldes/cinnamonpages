@@ -12,7 +12,7 @@ export function Home({}: HomeProps) {
   const productRetrieved = data;
 
   return (
-    <div className='pb-20' >
+    <div className='pb-5' >
     <div className="carousel relative container mx-auto" style={{ maxWidth: '1600px' }}>
         <div className="carousel-inner relative overflow-hidden w-full">
           <div className="carousel-item absolute opacity-0" style={{ height: '50vh', opacity: 1, position: 'static' }}>
@@ -72,9 +72,9 @@ export function Home({}: HomeProps) {
       </section>
 
       <section className="bg-white">
-        <div className="container pb-20 px-6 mx-auto">
+        <div className="container pb-2 px-6 mx-auto">
           <a className="uppercase tracking-wide no-underline hover:no-underline font-bold text-gray-800 text-xl mb-8" href="#">About</a>
-          <p className="mb-8">Lorem ipsum dolor sit amet, consectetur <a href="#">random link</a> adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Vitae aliquet nec ullamcorper sit. Nullam eget felis eget nunc lobortis mattis aliquam. In est ante in nibh mauris. Egestas congue quisque egestas diam in. Facilisi nullam vehicula ipsum a arcu. Nec nam aliquam sem et tortor consequat. </p>
+          <p className="mb-2">Lorem ipsum dolor sit amet, consectetur <a href="#">random link</a> adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Vitae aliquet nec ullamcorper sit. Nullam eget felis eget nunc lobortis mattis aliquam. In est ante in nibh mauris. Egestas congue quisque egestas diam in. Facilisi nullam vehicula ipsum a arcu. Nec nam aliquam sem et tortor consequat. </p>
         </div>
       </section>
       
