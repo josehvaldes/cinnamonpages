@@ -30,6 +30,7 @@ export async function queryApi<T>(
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': API_KEY,
+      'X-Correlation-Id': crypto.randomUUID(),
       ...headers,
     },
     ...requestOptions,
@@ -74,6 +75,7 @@ export async function apiRequest<T>(
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': API_KEY,
+      'X-Correlation-Id': crypto.randomUUID(),
       ...headers,
     },
     ...requestOptions,
