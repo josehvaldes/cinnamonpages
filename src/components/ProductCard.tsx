@@ -6,17 +6,8 @@ import { Link } from 'react-router-dom';
 
 interface ProductCardProps extends Product {}
 
-const toSlug = (value: string): string => {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-};
-
-export function ProductCard({ img, name, price }: ProductCardProps) {
-  const productSlug = encodeURIComponent(toSlug(name));
+export function ProductCard({ id, img, name, price }: ProductCardProps) {
+  const productSlug = id;
 
   return (
   <div className="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">

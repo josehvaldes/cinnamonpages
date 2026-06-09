@@ -13,4 +13,8 @@ export const productsApi = {
   getHomepageProducts: async (): Promise<HomepageProductsResponse> => {
     return apiRequest<HomepageProductsResponse>('/Homepage', { method: 'GET' });
   },
+
+  getProductDetails: async (productId: string): Promise<Product> => {
+    return apiRequest<Product>(`/Products/${productId}`, { method: 'GET' });
+  }
 };

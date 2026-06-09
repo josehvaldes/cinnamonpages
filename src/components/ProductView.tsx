@@ -2,33 +2,19 @@
 
 import { Button } from '@mantine/core';
 import { getImageUrl } from '../utils/getImageUrl';
-import { useHomepage } from '../hooks/useHomepage';
-import { useMemo } from 'react';
+import { useProductDetails } from '../hooks/useProductDetails';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { Product } from '../types/Product';
-
-const toSlug = (value: string): string => {
-    return value
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-');
-};
 
 export function ProductView() {
     const navigate = useNavigate();
     const { productSlug = '' } = useParams<{ productSlug: string }>();
-    const { isLoading, data } = useHomepage();
 
-    const product = useMemo<Product | null>(() => {
-        if (!productSlug) return null;
-        const allProducts = [...data.newArrivals, ...data.trendings, ...data.onSales];
-        return allProducts.find((item) => toSlug(item.name) === productSlug) ?? null;
-    }, [data.newArrivals, data.trendings, data.onSales, productSlug]);
+    const {isLoading, error, product} = useProductDetails(productSlug); // This will fetch product details when productSlug changes
 
     return (
         <div className="container mx-auto px-6 py-8">
+            {isLoading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Product View</h1>
             {isLoading && <p className="text-gray-700 mb-4">Loading product...</p>}
             {!isLoading && !product && <p className="text-gray-700 mb-4">Product not found.</p>}

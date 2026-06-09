@@ -24,3 +24,16 @@ export function useHomepage(): HomepageState {
         data: data ?? { trendings: [], newArrivals: [], onSales: [] },
   };
 }
+
+export function useProductDetails(productId: string) {
+  const { isPending, error, data } = useQuery({
+    queryKey: ['productDetails', productId] as const,
+    queryFn: () => productsApi.getProductDetails(productId),
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
+  });
+  return {
+    isLoading: isPending,
+    error: error ? error.message : null,
+    data: data ?? null,
+  };
+}
