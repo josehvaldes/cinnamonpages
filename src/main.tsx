@@ -9,6 +9,7 @@ import '@mantine/core/styles.css';
 import './index.css';
 
 import {
+  QueryClientProvider,
   QueryClient,
 } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
@@ -31,21 +32,44 @@ const queryCachePersister = createAsyncStoragePersister({
   storage: window.localStorage,
 });
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <MantineProvider theme={theme}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister: queryCachePersister,
-          maxAge: 2 * 60 * 60 * 1000, // Keep persisted cache for up to 2 hours
-          buster:"1.0.1" // Change this value to invalidate all persisted cache when your app updates
-        }}
-      >
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistQueryClientProvider>
-    </MantineProvider>
-  </React.StrictMode>
-)
+const isMockingEnabled = import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCKS === 'true';
+
+async function enableMocking() {
+  if (isMockingEnabled) {
+    const { worker } = await import('./mocks/browser');
+
+    await worker.start({ onUnhandledRequest: 'warn' });
+  }
+}
+
+enableMocking().then(() => {
+  const app = (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <MantineProvider theme={theme}>
+        {isMockingEnabled ? (
+          <QueryClientProvider client={queryClient}>
+            {app}
+          </QueryClientProvider>
+        ) : (
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{
+              persister: queryCachePersister,
+              maxAge: 2 * 60 * 60 * 1000, // Keep persisted cache for up to 2 hours
+              buster:"1.0.1" // Change this value to invalidate all persisted cache when your app updates
+            }}
+          >
+            {app}
+          </PersistQueryClientProvider>
+        )}
+      </MantineProvider>
+    </React.StrictMode>
+  )
+});
+

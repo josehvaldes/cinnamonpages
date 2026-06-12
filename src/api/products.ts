@@ -11,10 +11,10 @@ export interface HomepageProductsResponse {
 export const productsApi = {
   // Get Homepage Products
   getHomepageProducts: async (): Promise<HomepageProductsResponse> => {
-    return apiRequest<HomepageProductsResponse>('/Homepage', { method: 'GET' });
+    return apiRequest<HomepageProductsResponse>('/homepage', { method: 'GET' });
   },
 
   getProductDetails: async (productId: string): Promise<Product> => {
-    return apiRequest<Product>(`/Products/${productId}`, { method: 'GET' });
+    return apiRequest<Product>(`/products/${productId}`, { method: 'GET' });
   }
 };

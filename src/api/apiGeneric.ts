@@ -15,49 +15,6 @@ interface ApiRequestOptions extends RequestInit {
   excludeApiVersion?: boolean;
 }
 
-export async function queryApi<T>(
-  endpoint: string,
-  options: ApiRequestOptions = {}
-): Promise< T | any> {
-  
-  const url = options.excludeApiVersion
-    ? `${API_BASE_URL}${endpoint}`
-    : `${API_BASE_URL}/${API_VERSION_URL}${endpoint}`;
-
-  const { responseType = 'json', headers, ...requestOptions } = options;  
-
-  const config: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY,
-      'X-Correlation-Id': crypto.randomUUID(),
-      ...headers,
-    },
-    ...requestOptions,
-  };
-  console.log('Querying API with URL:', url);
-  const { isPending, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () =>
-      fetch(url, config).then((res) =>{
-        if (responseType === 'text') {
-          return res.text() as unknown as T;
-        }
-        if (res.status === 204) {
-          return undefined as unknown as T;
-        }
-
-        return res.json() as unknown as T;
-      },
-      ),
-  })
-
-  
-  if (isPending) return 'Loading...'
-  if (error) return 'An error has occurred: ' + error.message
-  return data
-}
-
 // Generic API request function
 export async function apiRequest<T>(
   endpoint: string,
