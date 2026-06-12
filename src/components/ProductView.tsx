@@ -15,7 +15,7 @@ export function ProductView() {
     const ratingType = 'rating'; // You can customize this based on your rating system
     const { productSlug = '' } = useParams<{ productSlug: string }>();
 
-    const {isLoading, error, product} = useProductDetails(productSlug); // This will fetch product details when productSlug changes
+    const {isLoading, error, product} = useProductDetails(productSlug);
     const { mutate: submitRating, isPending: isSubmittingRating } = useProductRating();
     
     const [storedRating, setStoredRating] = useLocalStorage<number>(`product_${productSlug}_${ratingType}`, 0);

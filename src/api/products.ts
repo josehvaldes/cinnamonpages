@@ -24,7 +24,6 @@ export const productsApi = {
   },
 
   postProductRating: async (productId: string, rating: RateProductRequest): Promise<void> => {
-    console.log('Submitting rating:', { productId, ...rating });
     return apiRequest<void>(`/products/${productId}/rate`, {
       method: 'POST',
       body: JSON.stringify(rating),
