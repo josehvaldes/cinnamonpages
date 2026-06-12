@@ -8,6 +8,11 @@ export interface HomepageProductsResponse {
     onSales: Product[];
 }
 
+export interface RateProductRequest {
+    value: number;
+    ratingType: string;
+}
+
 export const productsApi = {
   // Get Homepage Products
   getHomepageProducts: async (): Promise<HomepageProductsResponse> => {
@@ -16,5 +21,17 @@ export const productsApi = {
 
   getProductDetails: async (productId: string): Promise<Product> => {
     return apiRequest<Product>(`/products/${productId}`, { method: 'GET' });
+  },
+
+  postProductRating: async (productId: string, rating: RateProductRequest): Promise<void> => {
+    console.log('Submitting rating:', { productId, ...rating });
+    return apiRequest<void>(`/products/${productId}/rate`, {
+      method: 'POST',
+      body: JSON.stringify(rating),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
+
 };
