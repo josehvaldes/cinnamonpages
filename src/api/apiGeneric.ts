@@ -1,7 +1,3 @@
-import {
-  useQuery,
-} from '@tanstack/react-query'
-
 import { ApiError } from './apiError';
 // API configuration and base URL
 export const API_BASE_URL = import.meta.env.VITE_AWS_API_BASE_URL || 'http://localhost:8080/';
