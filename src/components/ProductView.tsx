@@ -26,7 +26,9 @@ export function ProductView() {
         setValue(newValue);
         setStoredRating(newValue);
         // Submit rating from an event callback via mutation.
-        submitRating({ productId: productSlug, value: newValue, ratingType });
+        submitRating({ productId: productSlug, value: newValue, ratingType }
+            , {onError: () => {setValue(storedRating); setStoredRating(storedRating);},}
+        );
     };
 
     return (

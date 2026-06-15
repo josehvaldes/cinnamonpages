@@ -45,7 +45,7 @@ export function ProductCard({ id, img, name, price }: ProductCardProps) {
             onClick={onClick}
             role="button"
             tabIndex={0}
-            aria-disabled={isSubmittingRating}
+            aria-disabled={isSubmittingRating}            
           >
           <HeartIcon />
         </ActionIcon>
