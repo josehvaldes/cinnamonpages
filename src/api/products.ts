@@ -13,6 +13,22 @@ export interface RateProductRequest {
     ratingType: string;
 }
 
+export interface productPageRequest{
+  pageNumber: number;
+  pageSize: number;
+}
+
+interface ProductListResponse {
+    items: Product[];
+    totalCount: number;
+    pageNumber: number;
+    pageSize: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+}
+
+
 export const productsApi = {
   // Get Homepage Products
   getHomepageProducts: async (): Promise<HomepageProductsResponse> => {
@@ -21,6 +37,15 @@ export const productsApi = {
 
   getProductDetails: async (productId: string): Promise<Product> => {
     return apiRequest<Product>(`/products/${productId}`, { method: 'GET' });
+  },
+
+  getProducts: async (request: productPageRequest): Promise<ProductListResponse> => {
+    const { pageNumber, pageSize } = request;
+    const queryParams = new URLSearchParams({
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+    });
+    return apiRequest<ProductListResponse>(`/products?${queryParams.toString()}`, { method: 'GET' });
   },
 
   postProductRating: async (productId: string, rating: RateProductRequest): Promise<void> => {

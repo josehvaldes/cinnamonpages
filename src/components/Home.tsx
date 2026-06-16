@@ -2,14 +2,22 @@ import { ProductCard } from './ProductCard';
 import { TestConnectionApi } from './TestConnectionApi';
 import { useHomepage } from '../hooks/useHomepage';
 import { getImageUrl } from '../utils/getImageUrl';
+import { useEffect } from 'react';
 
 interface HomeProps {
 }
+
+
 
 export function Home({}: HomeProps) {
 
   const { isLoading, error, data } = useHomepage();
   const productRetrieved = data;
+  console.log("Render. Home component, data retrieved:", data);
+  useEffect(() => {
+      console.log(`UseEffect, Home component mounted`);
+  },[])
+  
 
   return (
     <div className='pb-5' >
@@ -40,8 +48,8 @@ export function Home({}: HomeProps) {
             </div>
           </nav>
           {/* Product Cards */}
-          {productRetrieved.newArrivals.map((product, idx) => (
-            <ProductCard key={idx} {...product} />
+          {productRetrieved.newArrivals.map((product) => (
+            <ProductCard key={product.id} {...product} />
           ))}
 
           <nav id="store" className="w-full z-30 top-0 px-6 py-1">
@@ -52,8 +60,8 @@ export function Home({}: HomeProps) {
             </div>
           </nav>
           {/* Product Cards */}
-          {productRetrieved.trendings.map((product, idx) => (
-            <ProductCard key={idx} {...product} />
+          {productRetrieved.trendings.map((product) => (
+            <ProductCard key={product.id} {...product} />
           ))}
 
           
@@ -65,8 +73,8 @@ export function Home({}: HomeProps) {
             </div>
           </nav>
           {/* Product Cards */}
-          {productRetrieved.onSales.map((product, idx) => (
-            <ProductCard key={idx} {...product} />
+          {productRetrieved.onSales.map((product) => (
+            <ProductCard key={product.id} {...product} />
           ))}
         </div>
       </section>

@@ -5,6 +5,7 @@ const ENDPOINT_LATENCY_MS = {
     health: { base: 120, jitter: 80 },
     homepage: { base: 450, jitter: 300 },
     productDetails: { base: 800, jitter: 500 },
+    products : { base: 500, jitter: 200 },
 } as const;
 
 async function simulateLatency(
@@ -30,6 +31,25 @@ export const handlers = [
         return HttpResponse.text('Healthy');
     }),
     
+    http.get(/\/v1\/products$/i, async ({request}) => {
+        
+        await simulateLatency('products');
+        const url = new URL(request.url);
+        const pageNumber = parseInt(url.searchParams.get('pageNumber') || '1', 10);
+        const pageSize = parseInt(url.searchParams.get('pageSize') || '20', 10);
+        const startIndex = (pageNumber - 1) * pageSize;
+        const paginatedProducts = mockProducts.slice(startIndex, startIndex + pageSize);
+        return HttpResponse.json({
+            items: paginatedProducts,
+            totalCount: mockProducts.length,
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+            totalPages: Math.ceil(mockProducts.length / pageSize),
+            hasNextPage: pageNumber * pageSize < mockProducts.length,
+            hasPreviousPage: pageNumber > 1
+        });
+    }),
+
     http.get(/\/v1\/products\/[^/]+$/i, async ({ request }) => {
         
         await simulateLatency('productDetails');

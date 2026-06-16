@@ -118,4 +118,28 @@ describe("ProductView", () => {
             expect.objectContaining({ onError: expect.any(Function) })
         );
     });
+
+    it("navigates to home when 'Back to Home' is clicked", () => {
+        const product = mockProducts[0];
+        useProductDetailsMock.mockReturnValue({
+            isLoading: false,
+            error: null,
+            product,
+        });
+
+        render(
+            <MantineProvider>
+                <MemoryRouter initialEntries={[`/product/${product.id}`]}>
+                    <Routes>
+                        <Route path="/" element={<p>Home Page</p>} />
+                        <Route path="/product/:productSlug" element={<ProductView />} />
+                    </Routes>
+                </MemoryRouter>
+            </MantineProvider>
+        );
+
+        fireEvent.click(screen.getByRole("button", { name: /back to home/i }));
+
+        expect(screen.getByText("Home Page")).toBeInTheDocument();
+    });
 });
