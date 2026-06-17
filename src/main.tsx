@@ -8,6 +8,14 @@ import { theme } from './theme/theme';
 import '@mantine/core/styles.css';
 import './index.css';
 
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import {
+  store,
+  persistor,
+} from "./store/store";
+
+
 import {
   QueryClientProvider,
   QueryClient,
@@ -51,24 +59,31 @@ enableMocking().then(() => {
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <MantineProvider theme={theme}>
-        {isMockingEnabled ? (
-          <QueryClientProvider client={queryClient}>
-            {app}
-          </QueryClientProvider>
-        ) : (
-          <PersistQueryClientProvider
-            client={queryClient}
-            persistOptions={{
-              persister: queryCachePersister,
-              maxAge: 2 * 60 * 60 * 1000, // Keep persisted cache for up to 2 hours
-              buster:"1.0.1" // Change this value to invalidate all persisted cache when your app updates
-            }}
-          >
-            {app}
-          </PersistQueryClientProvider>
-        )}
-      </MantineProvider>
+      <Provider store={store}>
+        <PersistGate
+          loading={null}
+          persistor={persistor}
+        >
+          <MantineProvider theme={theme}>
+                    {isMockingEnabled ? (
+                      <QueryClientProvider client={queryClient}>
+                        {app}
+                      </QueryClientProvider>
+                    ) : (
+                      <PersistQueryClientProvider
+                        client={queryClient}
+                        persistOptions={{
+                          persister: queryCachePersister,
+                          maxAge: 2 * 60 * 60 * 1000, // Keep persisted cache for up to 2 hours
+                          buster:"1.0.1" // Change this value to invalidate all persisted cache when your app updates
+                        }}
+                      >
+                        {app}
+                      </PersistQueryClientProvider>
+                    )}
+          </MantineProvider>
+      </PersistGate>        
+      </Provider>
     </React.StrictMode>
   )
 });

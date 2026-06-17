@@ -3,29 +3,23 @@ import {getImageUrl} from '../utils/getImageUrl';
 import { Anchor } from '@mantine/core';
 import type { Product } from '../types/Product';
 import { Link } from 'react-router-dom';
-import { useProductRating } from '../hooks/useProductRating';
-import { useLocalStorage } from '../hooks/useLocalStorage';
-import { ActionIcon } from '@mantine/core';
+
+import { ActionIcon, Tooltip } from '@mantine/core';
 import { HeartIcon } from '@phosphor-icons/react';
+import { useDispatch } from "react-redux";
+import { toggleItem } from "../store/wishlistSlice";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 interface ProductCardProps extends Product {}
 
 export function ProductCard({ id, img, name, price }: ProductCardProps) {
   const productSlug = id;
-  const ratingType = 'like'; 
-  const [liked, setLiked] = useLocalStorage<boolean>(`product_${id}_${ratingType}`, false);
-  const { mutate: submitRating, isPending: isSubmittingRating } = useProductRating();
+  const inWishlist = useSelector((state: RootState) => state.wishlist.items.some((item: Product) => item.id === id));
+  const dispatch = useDispatch();
 
   const onClick = () => {
-    if (isSubmittingRating) {
-      return;
-    }
-    const nextLiked = !liked;
-    setLiked(nextLiked);
-
-    submitRating({ productId: id, value: nextLiked ? 1 : 0, ratingType },
-      {onError: () => {setLiked(!nextLiked);},}
-    );
+    dispatch(toggleItem({ id, img, name, price }));
   };
 
   return (
@@ -39,16 +33,16 @@ export function ProductCard({ id, img, name, price }: ProductCardProps) {
       <Anchor component={Link} to={`/product/${productSlug}`}>
         <p>{name}</p>
       </Anchor>
-      <ActionIcon variant="light" color={liked ? 'red' : 'gray'} 
-            disabled={isSubmittingRating} 
-            aria-label={liked ? 'Unlike product' : 'Like product'}
+      <Tooltip label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}>
+        <ActionIcon variant="light" color={inWishlist ? 'red' : 'gray'} 
             onClick={onClick}
             role="button"
-            tabIndex={0}
-            aria-disabled={isSubmittingRating}            
+            tabIndex={0} 
+            aria-label='hover to see tooltip'            
           >
           <HeartIcon />
         </ActionIcon>
+      </Tooltip>
     </div>
     
     <p className="pt-1 text-gray-900">{price} $</p>

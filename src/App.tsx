@@ -5,6 +5,7 @@ import {Home} from "./components/Home";
 import {Footer} from "./components/Footer";
 import { ProductView } from "./components/ProductView";
 import { ProductsList } from "./components/ProductsList";
+import { Wishlist } from "./components/Wishlist";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/about" element={<div><h1>About Page</h1></div>} />
             <Route path="/product/:productSlug" element={<ProductView />} />
             <Route path="/products" element={<ProductsList />} /> 
+            <Route path="/wishlist" element={<Wishlist />} />
           </Routes>
           <Footer />
         </AppShell.Main>

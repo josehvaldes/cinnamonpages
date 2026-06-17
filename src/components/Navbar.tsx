@@ -1,5 +1,7 @@
 import { Box, Anchor,Flex} from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 export function NavBar(){
 
@@ -7,6 +9,7 @@ export function NavBar(){
     const isHome = location.pathname === '/';
     const isAbout = location.pathname === '/about';
     const isProductsList = location.pathname === '/products';
+    const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
 
     return(
     <Box component="nav" className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3">
@@ -14,6 +17,8 @@ export function NavBar(){
       <Flex mih = {50} gap="md" justify="center" align="center" wrap="wrap">
         <Anchor component={Link} to="/" underline={isHome ? 'always' : 'never'}>Home</Anchor>
         <Anchor component={Link} to="/products" underline={isProductsList ? 'always' : 'never'}>Products</Anchor>
+        <Anchor component={Link} 
+        to="/wishlist" underline={location.pathname === '/wishlist' ? 'always' : 'never'}>Wishlist ({wishlistCount})</Anchor>
         <Anchor component={Link} to="/about" underline={isAbout ? 'always' : 'never'}>About</Anchor>
       </Flex>
         
